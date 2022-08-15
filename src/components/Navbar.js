@@ -5,6 +5,9 @@ import { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.css";
 import Image from "react-bootstrap/Image";
 
+import {getRol} from './Login'
+
+
 /*	
 	Navbar
 
@@ -21,7 +24,8 @@ export default function Navbar() {
 			{(location.pathname == '/')
 				? (<NavbarInit />) : (location.pathname == '/login') ?
 				(<NavbarLogin />) : (location.pathname == '/signup') ?
-				(<NavbarSignup />) : (<NavbarGeneral />)}
+				(<NavbarSignup />) : (getRol()=='Client') ?
+				(<NavbarClient />) : (<NavbarAdmin />)}
 		</div>
 	)
 }
@@ -177,7 +181,7 @@ function NavbarSignup() {
 
 }
 
-function NavbarGeneral() {
+function NavbarAdmin() {
 
 	const navigate = useNavigate()
 	const [value, setValue] = useState(false);
@@ -213,6 +217,51 @@ function NavbarGeneral() {
 								<Tab label="Users" onClick={() => navigate("/users")} />
 								<Tab label="Books" onClick={() => navigate("/books")} />
 								<Tab label="Loans" onClick={() => navigate("/loans")} />
+							</Tabs>
+						</Grid>
+					</Grid>
+				</Toolbar>
+			</AppBar>
+		</Box >
+	)
+}
+
+
+function NavbarClient() {
+
+	const navigate = useNavigate()
+	const [value, setValue] = useState(false);
+
+	const handleChange = (event, newValue) => {
+		setValue(newValue);
+	};
+
+	return (
+		<Box>
+			<AppBar style={{
+				position: "relative",
+				backgroundColor: "#DFF0F7",
+				height: 60,
+			}}
+				elevation={2}
+			>
+				<Toolbar>
+					<Grid container>
+						<Grid sx={{ mt: 0.8 }}>
+							<Image src="https://cdn.discordapp.com/attachments/681190491278147626/1007369914312573028/Logo.png"
+								rounded />
+						</Grid>
+
+						<Grid item xs sx={{ mt: 1.2, ml: 3 }} >
+							<Typography variant="h6" color="#113343">
+								<Link to="/" style={{ textDecoration: 'none', color: "black" }}>Pachacho Library</Link>
+							</Typography>
+						</Grid>
+
+						<Grid container item xs={9} sx={{ mt: 1 }}>
+							<Tabs value={value} onChange={handleChange}>
+								<Tab label="Books" onClick={() => navigate("/books")} />
+								<Tab label="My Loans" onClick={() => navigate("/loans")} />
 							</Tabs>
 						</Grid>
 					</Grid>

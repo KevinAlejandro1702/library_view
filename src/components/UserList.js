@@ -3,6 +3,7 @@ import { Paper, Button, Card, Typography, CardContent, Grid, Box, Table, TableBo
 import { Link, useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 
+
 /*	
 	UserList
 
@@ -72,7 +73,7 @@ export default function UserList() {
 						</TableHead>
 						<TableBody>
 							{users.map((user) => (
-								<TableRow>
+								<TableRow key={user.id_user}>
 									<TableCell>{user.id_user}</TableCell>
 									<TableCell>{user.full_name}</TableCell>
 									<TableCell>{user.cellphone}</TableCell>

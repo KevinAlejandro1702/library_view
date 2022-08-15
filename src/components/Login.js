@@ -5,6 +5,8 @@ import { useNavigate, Link } from 'react-router-dom'
 import Swal from 'sweetalert2'
 
 var variable_global = '';
+var rol = '';
+var idUser = '';
 
 /*	
 	Login
@@ -66,7 +68,20 @@ export default function Login() {
         title: 'Email not match',
       })
     }
-    getEmail()
+
+    var us = user.email
+
+    for (var j = 0; j < users.length; j++) {
+      if (users[j].email === us) {
+          rol = users[j].roles
+          idUser = users[j].id_user
+          console.log('rol', rol)
+          console.log('id', idUser)
+          break;
+      } else {
+          console.log('User not found')
+      }
+    }
   }
 
 
@@ -95,6 +110,7 @@ export default function Login() {
   };
   useEffect(() => { loadUsers() }, [])
 
+  
   return (
     <Grid container component="main" fullWidth>
       <CssBaseline />
@@ -192,9 +208,12 @@ export default function Login() {
   );
 }
 
-export function getEmail(){
-  console.log('variable_global:', variable_global)
-  return variable_global
+export function getRol(){
+  return rol
+}
+
+export function getUserID(){
+  return idUser
 }
 
 function setVariable(variable){

@@ -3,6 +3,9 @@ import { Paper, Button, Card, Typography, CardContent, Grid, Box, Table, TableBo
 import { Link, useNavigate } from "react-router-dom";
 import TextField from '@mui/material/TextField';
 
+import { getRol, getUserID } from './Login'
+
+
 /*	
 	Loan
 
@@ -15,6 +18,25 @@ import TextField from '@mui/material/TextField';
 
 export default function Loan() {
 
+	const [role] = useState(getRol())
+
+	console.log(getUserID())
+
+	return (
+		<div>
+			{(role == 'Admin') ? (<LoansAdmin />) :
+				(role == 'Client') ? (<LoansClient />) : (<LoansAdmin />)}
+		</div>
+	)
+}
+
+function dateFormatter(date) {
+	const newDate = new Date(date).toLocaleDateString();
+
+	return (newDate)
+}
+
+function LoansAdmin() {
 	const navigate = useNavigate();
 	const [loans, setLoans] = useState([]);
 
@@ -63,15 +85,16 @@ export default function Loan() {
 							{loans.map((loan) => (
 								<TableRow key={loan.id_loan}>
 									<TableCell>{loan.id_loan}</TableCell>
-									<TableCell>{loan.loan_date}</TableCell>
-									<TableCell>{loan.devolution_date}</TableCell>
+									<TableCell>{dateFormatter(loan.loan_date)}</TableCell>
+									<TableCell>{dateFormatter(loan.devolution_date)}</TableCell>
 									<TableCell>{loan.id_user}</TableCell>
 									<TableCell>{loan.isbn}</TableCell>
-									<TableCell>{loan.delivered}</TableCell>
+									{(loan.delivered) ? (<TableCell>✅</TableCell>)
+										: (<TableCell>❌</TableCell>)}
 									<TableCell>
-										<Button 
+										<Button
 											variant='contained'
-											style={{ marginLeft: ".5rem" }}										
+											style={{ marginLeft: ".5rem" }}
 										>
 											X
 										</Button>
@@ -87,8 +110,8 @@ export default function Loan() {
 }
 
 
-export function LoansClient() {
-
+function LoansClient() {
+	const navigate = useNavigate();
 	const [loans, setLoans] = useState([]);
 
 	const loadLoans = async () => {
@@ -98,19 +121,10 @@ export function LoansClient() {
 	};
 	useEffect(() => { loadLoans() }, [])
 
+
 	return (
 		<Box sx={{ mt: 3, mb: 3 }}>
-			<h2>Loans Client</h2>
-
-			<Grid>
-				<TextField
-					sx={{ mt: 3, mb: 3 }}
-					size="small"
-					fullWidth
-					label="🔍︎"
-					placeholder="search lendings"
-				/>
-			</Grid>
+			<h2>My Loans</h2>
 
 			<Paper sx={{
 				width: '100%',
@@ -122,32 +136,24 @@ export function LoansClient() {
 					<Table sx={{ height: 'max-content' }}>
 						<TableHead>
 							<TableRow>
-								<TableCell> Loan</TableCell>
-								<TableCell> Loan date</TableCell>
-								<TableCell> Devolution date</TableCell>
-								<TableCell> User</TableCell>
-								<TableCell> Book</TableCell>
-								<TableCell> Delivered</TableCell>
+								<TableCell> Loan </TableCell>
+								<TableCell> Loan date </TableCell>
+								<TableCell> Devolution date </TableCell>
+								<TableCell> Book </TableCell>
+								<TableCell> Delivered </TableCell>
 								<TableCell> </TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
+
 							{loans.map((loan) => (
 								<TableRow key={loan.id_loan}>
 									<TableCell>{loan.id_loan}</TableCell>
-									<TableCell>{loan.loan_date}</TableCell>
-									<TableCell>{loan.devolution_date}</TableCell>
-									<TableCell>{loan.id_user}</TableCell>
+									<TableCell>{dateFormatter(loan.loan_date)}</TableCell>
+									<TableCell>{dateFormatter(loan.devolution_date)}</TableCell>
 									<TableCell>{loan.isbn}</TableCell>
-									<TableCell>{loan.delivered}</TableCell>
-									<TableCell>
-										<Button 
-											variant='contained'
-											style={{ marginLeft: ".5rem" }}
-										>
-											X
-										</Button>
-									</TableCell>
+									{(loan.delivered) ? (<TableCell>✅</TableCell>)
+										: (<TableCell>❌</TableCell>)}
 								</TableRow>
 							))}
 						</TableBody>
