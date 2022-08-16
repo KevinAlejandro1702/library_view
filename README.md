@@ -8,6 +8,7 @@ Código del frontend en React con el archivo render
 git
 nodejs
 npm
+docker
 ```
 
 ### Instalación
