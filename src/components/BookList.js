@@ -197,14 +197,6 @@ function BookListClient() {
 					</Table>
 				</TableContainer>
 			</Paper>
-
-			<Grid container justifyContent='flex-end'>
-				<Button variant='contained'
-					sx={{ margin: '.7rem' }}
-					onClick={() => navigate("/books/new")}>
-					New Book
-				</Button>
-			</Grid>
 		</Box>
 	)
 }
